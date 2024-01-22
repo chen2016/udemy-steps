@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./index.css";
 
 const messages = [
@@ -7,7 +8,19 @@ const messages = [
 ];
 
 function App() {
-  const step = 3;
+  const [step, setStep] = useState(1);
+
+  function previousClicked() {
+    if ((step % 3) - 1 < 0) {
+      setStep((step % 3) + 3 - 1);
+    } else {
+      setStep((step % 3) - 1);
+    }
+  }
+
+  function nextClicked() {
+    setStep((step % 3) + 1);
+  }
   return (
     <div className="steps">
       <div className="numbers">
@@ -19,10 +32,18 @@ function App() {
         Step {step}: {messages[step - 1]}
       </p>
       <div className="buttons">
-        <button style={{ backgroundColor: "#7950F2", color: "#FFF" }}>
+        <button
+          className={step === 1 ? "disabled" : "enabled"}
+          onClick={previousClicked}
+          disabled={step === 1}
+        >
           Previous
         </button>
-        <button style={{ backgroundColor: "#7950F2", color: "#FFF" }}>
+        <button
+          className={step === 3 ? "disabled" : "enabled"}
+          onClick={nextClicked}
+          disabled={step === 3}
+        >
           Next
         </button>
       </div>
